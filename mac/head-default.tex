@@ -92,10 +92,13 @@
 \setcounter{footnote}{1}
 
 %% maths
+\makeatletter
 \newtheoremstyle{dfn}
     {\topsep}
     {\topsep}
-    {\upshape}
+    {\upshape\addtolength{\@totalleftmargin}{3em}
+    \addtolength{\linewidth}{-6em}
+    \parshape 1 3em \linewidth}
     {0pt}
     {\scshape}
     {.}
@@ -104,7 +107,9 @@
 \newtheoremstyle{thm}
     {\topsep}
     {\topsep}
-    {\slshape}
+    {\slshape\addtolength{\@totalleftmargin}{3em}
+    \addtolength{\linewidth}{-6em}
+    \parshape 1 3em \linewidth}
     {0pt}
     {\bfseries}
     {.}
@@ -113,7 +118,9 @@
 \newtheoremstyle{xrc}
     {\topsep}
     {\topsep}
-    {\upshape}
+    {\upshape\addtolength{\@totalleftmargin}{3em}
+    \addtolength{\linewidth}{-6em}
+    \parshape 1 3em \linewidth}
     {0pt}
     {\bfseries\scshape}
     {.}
@@ -128,6 +135,7 @@
     {.}
     {5pt plus 1pt minus 1pt}
     {}
+\makeatother
 \theoremstyle{dfn}
 \newtheorem{dfn}{Definition}
 \theoremstyle{thm}

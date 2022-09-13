@@ -1,0 +1,72 @@
+\input{../mac/head-default.tex}
+\input{../mac/maths.tex}
+
+\Bdc{Notes on the Theory of Computation}
+
+\section{Automata and Formal Languages}
+
+An {\bf alphabet} is a finite set \(\varSigma\), and a {\bf word over the
+alphabet \(\varSigma\)} is a finite sequence or {\bf string} of the elements of
+\(\varSigma\). If a word \(w\) is the sequence \((w_0, \ldots, w_n)\) for some
+\(n \in \setnat\), we may write the word as \(w_0 \cdots w_n\). The empty word
+is denoted by \(\varepsilon\). The set of all words over \(\varSigma\) is
+\(\varSigma^*\)\footnote{\(^*\) is the unary operator of Kleene star, defined as
+\(A^* = \set{a_0 \cdots a_n : n \in \setnat \land \forall i \in \Nln[n + 1] (a_i
+\in A)}\).}. A {\bf formal language over the alphabet \(\varSigma\)} is a subset
+of \(\varSigma^*\).
+
+An {\bf automaton} is an ordered sequence that {\bf accepts} some words over an
+alphabet. The set of words an automaton accepts forms a language, which is
+unique, in which case we say the automaton {\bf recognises} the language. Given
+an automaton \(M\), we may speak of the unique language recognised by \(M\) as
+the {\bf language of the automaton \(M\)} and denote it by \(L(M)\). A machine
+may accept no string, in which case the language thereof is \(\nset\).
+
+\subsection{Finite-State Automata and Regular Languages}
+
+\Bdf
+    A {\bf finite-state automaton} is an ordered quintuple \((\varSigma, S,
+    \delta, s_0, F)\) wherein
+    \begin{enumerate}
+        \item \(\varSigma\) is an alphabet,
+        \item \(S\) is a finite set of {\bf states},
+        \item \(\map{\delta}{S \times \varSigma}{S}\) is the {\bf transition
+        function},
+        \item \(s_0 \in S\) is the {\bf initial state}, and
+        \item \(F \subseteq S\) is the set of {\bf final states} or {\bf accept
+        states}.
+    \end{enumerate}
+\Edf
+
+Let \(M = (\varSigma, S, \delta, s_0, F)\) be a finite-state automaton and let
+\(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) be a word over \(\varSigma\).
+Then \(M\) accepts \(w\) if a finite sequence of states \((r_0, \ldots, r_n)\)
+in \(S\) exists such that
+\begin{enumerate}
+    \item \(r_0 = q_0\),
+    \item \(\delta(r_i, w_i) = r_{i + 1}\) for \(i = 0, \ldots, n - 1\), and
+    \item \(r_n \in F\).
+\end{enumerate}
+
+\Bdf
+    Let \(\varSigma\) be an alphabet, and let \(a \in \varSigma\). Then some \(R
+    \subseteq \varSigma^*\) is a {\bf regular language} if
+    \begin{enumerate}
+        \item \(R = \nset\),
+        \item \(R = \set{\varepsilon}\),
+        \item \(R = \set{a}\),
+        \item \(R = R_1 \cup R_2\) wherein \(R_1\) and \(R_2\) are regular
+        languages over \(\varSigma\),
+        \item \(R = R_1 R_2\)\footnote{\(R_1 R_2\) is the concatenation of
+        \(R_1\) and \(R_2\), defined as \(R_1 R_2 = \set{x y : x \in R_1 \land y
+        \in R_2}\)} wherein \(R_1\) and \(R_2\) are regular languages over
+        \(\varSigma\), or
+        \item \(R = R_0^*\) wherein \(R_0\) is a regular language over
+        \(\varSigma\).
+    \end{enumerate}
+\Edf
+
+An expressed used to characterise a regular language is a {\bf regular
+expression}.
+
+\Edc
