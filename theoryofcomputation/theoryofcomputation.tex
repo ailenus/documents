@@ -19,14 +19,14 @@ An {\bf automaton} is an ordered sequence that {\bf accepts} some words over an
 alphabet. The set of words an automaton accepts forms a language, which is
 unique, in which case we say the automaton {\bf recognises} the language. Given
 an automaton \(M\), we may speak of the unique language recognised by \(M\) as
-the {\bf language of the automaton \(M\)} and denote it by \(L(M)\). A machine
-may accept no string, in which case the language thereof is \(\nset\).
+the {\bf language of the automaton \(M\)} and denote it by \(L(M)\). An
+automaton may accept no string, in which case the language thereof is \(\nset\).
 
 \subsection{Finite-State Automata and Regular Languages}
 
 \Bdf
-    A {\bf finite-state automaton} is an ordered quintuple \((\varSigma, S,
-    \delta, s_0, F)\) wherein
+    A {\bf deterministic finite-state automaton} is an ordered quintuple
+    \((\varSigma, S, \delta, s_0, F)\) wherein
     \begin{enumerate}
         \item \(\varSigma\) is an alphabet,
         \item \(S\) is a finite set of {\bf states},
@@ -38,12 +38,12 @@ may accept no string, in which case the language thereof is \(\nset\).
     \end{enumerate}
 \Edf
 
-Let \(M = (\varSigma, S, \delta, s_0, F)\) be a finite-state automaton and let
-\(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) be a word over \(\varSigma\).
-Then \(M\) accepts \(w\) if a finite sequence of states \((r_0, \ldots, r_n)\)
-in \(S\) exists such that
+Let \(M = (\varSigma, S, \delta, s_0, F)\) be a deterministic finite-state
+automaton and let \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) be a word
+over \(\varSigma\).  Then \(M\) accepts \(w\) if there exists a finite sequence
+of states \((r_0, \ldots, r_n)\) in \(S\) such that
 \begin{enumerate}
-    \item \(r_0 = q_0\),
+    \item \(r_0 = s_0\),
     \item \(\delta(r_i, w_i) = r_{i + 1}\) for \(i = 0, \ldots, n - 1\), and
     \item \(r_n \in F\).
 \end{enumerate}
@@ -68,5 +68,48 @@ in \(S\) exists such that
 
 An expressed used to characterise a regular language is a {\bf regular
 expression}.
+
+\Bdf
+    A {\bf nondeterministic finite-state automaton} is an ordered quintuple
+    \((\varSigma, S, \delta, s_0, F)\) wherein
+    \begin{enumerate}
+        \item \(\varSigma\) is an alphabet,
+        \item \(S\) is a finite set of states,
+        \item \(\map{\delta}{S \times
+        \varSigma_\varepsilon}{\pow(S)}\)\footnote{\(\varSigma_\varepsilon\)
+        denotes the union of \(\varSigma\) and \(\set{\varepsilon}\).} is the
+        transition function,
+        \item \(s_0 \in S\) is the initial state, and
+        \item \(F \subseteq S\) is the set of final or accept states.
+    \end{enumerate}
+\Edf
+
+Let \(M = (\varSigma, S, \delta, s_0, F)\) be a nondeterministic finite-state
+automaton and let \(w\) be a word over \(\varSigma\). Then \(M\) accepts \(w\)
+if \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) such that each \(w_i \in
+\varSigma_\varepsilon\), \(i \in \Nln[n + 1]\), and that there exists a finite
+sequence of states \((r_0, \ldots, r_n)\) in \(S\) such that
+\begin{enumerate}
+    \item \(r_0 = s_0\),
+    \item \(r_{i + 1} \in \delta(r_i, w_i)\) for \(i = 0, \ldots, n - 1\), and
+    \item \(r_n \in F\)
+\end{enumerate}
+
+We say that two automata are equivalent if they recognise the same language.
+
+\Bth
+    Every nondeterministic finite-state automaton has an equivalent finite-state
+    automaton.
+\Eth
+\Bpr
+    Let \(N = (\varSigma, S, \delta, s_0, F)\) be the nondeterministic
+    finite-state automaton recognising some language \(A\). We construct a
+    deterministic finite-state automaton \(M = (\varSigma, S', \delta', s_0',
+    F')\) recognising \(A\).
+
+    First, \(S' = \pow(S)\).
+
+    TODO
+\Epr
 
 \Edc
