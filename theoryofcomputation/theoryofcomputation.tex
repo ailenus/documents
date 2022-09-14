@@ -10,23 +10,25 @@
 \section{Automata and Formal Languages}
 
 An {\bf alphabet} is a finite set \(\varSigma\), and a {\bf word over the
-alphabet \(\varSigma\)} is a finite sequence or {\bf string} of the elements of
-\(\varSigma\). If a word \(w\) is the sequence \((w_0, \ldots, w_n)\) for some
-\(n \in \setnat\), we may write the word as \(w_0 \cdots w_n\). The empty word
-is denoted by \(\varepsilon\). The set of all words over \(\varSigma\) is
-\(\varSigma^*\)\footnote{\(^*\) is the unary operator of Kleene star, defined
-as \(A^* = \set{a_0 \cdots a_n : n \in \setnat \land \forall \, i \in \Nln[n +
-1] \, (a_i \in A)}\).}. A {\bf formal language over the alphabet \(\varSigma\)}
-is a subset of \(\varSigma^*\).
+alphabet \(\varSigma\)} is a finite sequence of the elements of \(\varSigma\).
+If a word \(w\) is the sequence \((w_0, \ldots, w_n)\) for some \(n \in
+\setnat\), we may write the word as \(w_0 \cdots w_n\). The empty word is
+denoted by \(\varepsilon\). The set of all words over \(\varSigma\) is
+\(\varSigma^*\)\footnote{\(^*\) is the unary operator of Kleene star, defined as
+\(A^* = \set{\varepsilon} \cup \set{a_0 \cdots a_n : n \in \setnat \land \forall
+\, i \in \Nln[n + 1] \, (a_i \in A)}n\).}. A {\bf formal language over the
+alphabet \(\varSigma\)} is a subset of \(\varSigma^*\).
 
 An {\bf automaton} is an ordered sequence that {\bf accepts} some words over an
 alphabet. The set of words an automaton accepts forms a language, which is
 unique, in which case we say the automaton {\bf recognises} the language. Given
 an automaton \(M\), we may speak of the unique language recognised by \(M\) as
-the {\bf language of the automaton \(M\)} and denote it by \(L(M)\). An
-automaton may accept no string, in which case the language thereof is \(\nset\).
+the {\bf language of the automaton \(M\)}. An automaton may accept no string, in
+which case the language thereof is \(\nset\).
 
 \subsection{Finite-State Automata and Regular Languages}
+
+\subsubsection{Deterministic Finite-State Automata}
 
 \Bdf
     A {\bf deterministic finite-state automaton} is an ordered quintuple
@@ -52,16 +54,16 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
     \item \(r_{n + 1} \in F\).
 \end{enumerate}
 
+\subsubsection{Nondeterministic Finite-State Automata}
+
 \Bdf
     A {\bf nondeterministic finite-state automaton} is an ordered quintuple
     \((\varSigma, S, \delta, s_0, F)\) wherein
     \begin{enumerate}
         \item \(\varSigma\) is an alphabet,
         \item \(S\) is a finite set of states,
-        \item \(\map{\delta}{S \times
-        \varSigma_\varepsilon}{\pow(S)}\)\footnote{\(\varSigma_\varepsilon\)
-        denotes the union of \(\varSigma\) and \(\set{\varepsilon}\).} is the
-        transition function,
+        \item \(\map{\delta}{S \times (\varSigma \cup \varepsilon)}{\pow(S)}\)
+        is the transition function,
         \item \(s_0 \in S\) is the initial state, and
         \item \(F \subseteq S\) is the set of final or accepting states.
     \end{enumerate}
@@ -120,6 +122,8 @@ We say that two automata are equivalent if they recognise the same language.
 
     Therefore, the theorem holds.
 \Epr
+
+\subsubsection{Regular Expressions and Regular Languages}
 
 \Bdf
     Let \(\varSigma\) be an alphabet, and let \(a \in \varSigma\). Then some \(R
@@ -267,7 +271,7 @@ If \(R\) is a regular expression, we denote the regular language it describes by
         \set{s_0})}{\mathcal{R}}\) wherein \(\mathcal{R}\) is the set of all
         regular expressions over \(\varSigma\) is the transition function,
         \item \(s_0 \in S\) is the initial state, and
-        \item \(s_1 \in S\) is the final or accepting state.
+        \item \(s_1 \neq s_0 \in S\) is the final or accepting state.
     \end{enumerate}
 \Edf
 
@@ -289,10 +293,56 @@ sequence of states \((r_0, \ldots, r_{n + 1})\) such that
     is regular.
 \Elm
 \Bpr
-    Let \(N\) be a nondeterministic finite-state automaton. We prove that
-    \(L(N)\) is described by some regular expression \(R\) over \(\varSigma\).
+    Let \(N = (\varSigma, S, \delta, s_0, F)\) be a nondeterministic
+    finite-state automaton recognising the language \(A\) over \(\varSigma\). We
+    prove that \(A\) is described by some regular expression \(R\) over
+    \(\varSigma\).
 
-    TODO
+    Let \(G = (\varSigma, S', \delta', s_0', s_1')\) be a generalised
+    nondeterministic finite-state automaton such that
+    \begin{enumerate}
+        \item \(s_0' \not\in S\),
+        \item \(s_1' \not\in S\),
+        \item \(S' = \set{s_0', s_1'} \cup S\), and
+        \item for each \(r_0 \in \set{s_0'} \cup S\) and for each \(r_1 \in
+        \set{s_1'} \cup S\) we have
+            \[
+                \delta'(r_0, r_1) = \begin{cases}
+                        \varepsilon & \text{if }\ (r_0 = s_0' \land r_1 = s_0)
+                        \lor (r_0 \in F \land r_1 = s_1'),\\
+                        R' & \text{if }\ r_0 \in S \land r_1 \in S \land \forall
+                        \, r \in L(R') \, \big(r_1 \in \delta(r_0, r)\big)
+                        \text{, and}\\
+                        \nset & \text{otherwise.}
+                    \end{cases}
+            \]
+    \end{enumerate}
+    We see that \(G\) also recognises \(A\). We shall then convert \(G\) into
+    regular expression \(R\).
+
+    Let \(k = \abs{S'}\). If \(k = 2\), then \(S' = \set{s_0', s_1'}\), and
+    so \(R = \delta'(s_0', s_1')\) is the regular expression.
+
+    If \(k > 2\), let \(s \in S'\) be distinct from \(s_0'\) and \(s_1'\), and
+    let \(G' = (\varSigma, S'', \delta'', s_0', s_1')\) be a generalised
+    nondeterministic finite-state automaton such that
+    \begin{enumerate}
+        \item \(S'' = S' \setminus \set{s}\),
+        \item for any \(r_0 \in S'' \setminus \set{s_0'}\) and for any \(r_1
+        \in S'' \setminus \set{s_1'}\) we have
+        \[
+            \delta''(r_0, r_1) = R_0 R_1 * R_2 \cup R_3
+        \]
+        wherein \(R_0 = \delta'(r_0, s)\), \(R_1 = \delta'(s, s)\), \(R_2 =
+        \delta'(s, r_1)\), and \(R_3 = \delta'(r_0, r_1)\).
+    \end{enumerate}
+    We see that \(G'\) is equivalent to \(G\).
+
+    Because \(G'\) has one fewer state than \(G\), by the principle of
+    induction, there exists a regular expression \(R\) converted from \(G\) for
+    any generalised nondeterministic finite-state automaton.
+
+    Therefore, the lemma holds.
 \Epr
 
 \Bth
@@ -302,5 +352,48 @@ sequence of states \((r_0, \ldots, r_{n + 1})\) such that
 \Bpr
     The theorem holds by Lemma~\ref{lem1} and Lemma~\ref{lem2}.
 \Epr
+
+\subsubsection{Nonregular Languages}
+
+\Bth[Pumping lemma]
+    If \(R\) is a regular language over \(\varSigma\), then there is a number
+    \(p \in \posint\), the {\bf pumping length}, such that if \(r \in R\) is of
+    length at least \(p\), then there exist \(x, y, z \in \varSigma*\) such that
+    \(r = x y z\) which satisfy that
+    \begin{enumerate}
+        \item \(x y^i z \in R\) for each \(i \in \setnat\),
+        \item \(\abs{y} > 0\), and
+        \item \(\abs{x y } \leq p\).
+    \end{enumerate}
+\Eth
+\Bpr
+    Let \(N = (\varSigma, S, \delta, s_0, F)\) be a nondeterministic
+    finite-state automaton recognising \(R\) and let \(p = \abs{S}\).
+
+    Let \(r = r_0 \cdots r_n\) wherein \(n \in \setnat\) be a word in \(R\) of
+    length \(n + 1\) which satisfies \(n + 1 \geq p\). Let \(s_0, \ldots, s_{n +
+    1}\) be the sequence of states that \(N\) enters when accepting \(r\). This
+    sequence has length \(n + 2\), which must be at least \(p + 1\). Among the
+    first \(p + 1\) elements in the sequence, two must be the same state by the
+    pigeonhole principle. Let the first of these be \(s_i\) and the second
+    \(s_j\). We note that \(i \leq p\). Now let \(x = r_0 \cdots r_{i - 1}\),
+    \(y = r_i \cdots r_{j - 1}\), and \(z = r_j \cdots r_n\).
+
+    Thus induced, \(r = x y z\) satisfies the pumping lemma.
+\Epr
+
+We may use the pumping lemma to prove that a language is not regular. To do so,
+first assume that the language is regular, and then use the pumping lemma to
+guarantee the existence of a pumping length \(p\) such that all words of length
+\(p\) or greater in the language can be pumped. Next, find a word in the
+language with length \(p\) or greater but cannot be pumped. Finally, demonstrate
+that this word cannot be pumped by considering all ways of diving it into three
+such substrings described by the pumping lemma. The existence of this word
+contradicts the pumping lemme assuming the language is regular, and hence the
+language is not regular.
+
+\subsection{Pushdown Automata and Context-Free Languages}
+
+\subsubsection{Context-Free Grammars and Context-Free Languages}
 
 \Edc
