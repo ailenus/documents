@@ -4,6 +4,7 @@
 \usepackage{tikz}
 \usetikzlibrary{automata,decorations.markings}
 \newcommand*{\pt}{5mm}
+\newcommand*{\lemautorefname}{Lemma}
 
 \Bdc{Notes on the Theory of Computation}
 
@@ -90,7 +91,7 @@ We say that two automata are equivalent if they recognise the same language.
     Let \(N = (\varSigma, S, \delta, s_0, F)\) be the nondeterministic
     finite-state automaton recognising some language \(A\). We construct a
     deterministic finite-state automaton \(M = (\varSigma, S', \delta', s_0',
-    F)\) recognising \(A\).
+    F')\) recognising \(A\).
 
     We first see that \(S' = \pow(S)\) and that \(F' = \set{R \in S' : R \cap F
     \neq \nset}\).
@@ -98,8 +99,8 @@ We say that two automata are equivalent if they recognise the same language.
     Let \(\map{\delta_0}{S \times \set{\varepsilon}}{\pow(S)}\) be defined as
     \(\delta_0(s, \varepsilon) = \delta(s, \varepsilon)\) for each \(s \in S\).
     Assume first that, thus induced, \(\delta_0 = \nset\) for \(N\). For each
-    \(R \in S'\) and for each \(a \in \varSigma\), let \(\delta'(R, a) = \set{s
-    \in S : \exists \, r \in R \, (s \in \delta(r, a))}\). Equivalently,
+    \(R \in S'\) and for each \(a \in \varSigma\), let \(\delta'(R, a) = \set*{s
+    \in S : \exists \, r \in R \, \big(s \in \delta(r, a)\big)}\). Equivalently,
     \[
         \delta'(R, a) = \bigcup_{r \in R} \delta(r, a).
     \]
@@ -118,7 +119,7 @@ We say that two automata are equivalent if they recognise the same language.
         E\big(\delta(r, a)\big)}
     \]
     and let \(s_0' = E(\set{s_0})\). We similarly see that \(M = (\varSigma, S',
-    \delta', s_0' F')\) recognises \(A\).
+    \delta', s_0', F')\) recognises \(A\).
 
     Therefore, the theorem holds.
 \Epr
@@ -138,7 +139,7 @@ We say that two automata are equivalent if they recognise the same language.
         \(R_1\) and \(R_2\), defined as \(R_1 R_2 = \set{x y : x \in R_1 \land y
         \in R_2}\)} wherein \(R_1\) and \(R_2\) are regular languages over
         \(\varSigma\), or
-        \item \(R = R_0^*\) wherein \(R_0\) is a regular language over
+        \item \(R = R_1^*\) wherein \(R_1\) is a regular language over
         \(\varSigma\).
     \end{enumerate}
 \Edf
@@ -227,7 +228,7 @@ If \(R\) is a regular expression, we denote the regular language it describes by
     finite-state automaton recognising \(R\).
 
     If \(R = R_1 R_2\), let \(S = S_1 \cup S_2\). Define \(\map{\delta}{S \times
-    \varSigma}{S}\) so that for each \(r \in S\) and for each \(b \in
+    \varSigma}{\pow(S)}\) so that for each \(r \in S\) and for each \(b \in
     \varSigma\) we have
     \[
         \delta(r, b) = \begin{cases}
@@ -242,9 +243,9 @@ If \(R\) is a regular expression, we denote the regular language it describes by
     finite-state automaton recognising \(R\).
 
     If \(R = R_1^*\), let \(s_0\) be a state not in \(S_1\), let \(S = \set{s_0}
-    cup S_1\), and let \(F = \set{s_0} \cup F_1\). Define \(\map{\delta}{S
-    \times \varSigma}{S}\) so that for each \(r \in S\) and for each \(b \in
-    \varSigma\) we have
+    \cup S_1\), and let \(F = \set{s_0} \cup F_1\). Define \(\map{\delta}{S
+    \times \varSigma}{\pow(S)}\) so that for each \(r \in S\) and for each \(b
+    \in \varSigma\) we have
     \[
         \delta(r, b) = \begin{cases}
             \delta_1(r, b) & \text{if }\ (r \in S_1 \land r \not\in F_1) \lor (r
@@ -331,7 +332,7 @@ sequence of states \((r_0, \ldots, r_{n + 1})\) such that
         \item for any \(r_0 \in S'' \setminus \set{s_0'}\) and for any \(r_1
         \in S'' \setminus \set{s_1'}\) we have
         \[
-            \delta''(r_0, r_1) = R_0 R_1 * R_2 \cup R_3
+            \delta''(r_0, r_1) = R_0 R_1^* R_2 \cup R_3
         \]
         wherein \(R_0 = \delta'(r_0, s)\), \(R_1 = \delta'(s, s)\), \(R_2 =
         \delta'(s, r_1)\), and \(R_3 = \delta'(r_0, r_1)\).
@@ -350,16 +351,16 @@ sequence of states \((r_0, \ldots, r_{n + 1})\) such that
     automaton recognises it.
 \Eth
 \Bpr
-    The theorem holds by Lemma~\ref{lem1} and Lemma~\ref{lem2}.
+    The theorem holds by \autoref{lem1} and \autoref{lem2}.
 \Epr
 
 \subsubsection{Nonregular Languages}
 
 \Bth[Pumping lemma]
     If \(R\) is a regular language over \(\varSigma\), then there is a number
-    \(p \in \posint\), the {\bf pumping length}, such that if \(r \in R\) is of
-    length at least \(p\), then there exist \(x, y, z \in \varSigma*\) such that
-    \(r = x y z\) which satisfy that
+    \(p \in \posint\), the {\it\bf pumping length}, such that if \(r \in R\) is
+    of length at least \(p\), then there exist \(x, y, z \in \varSigma^*\) such
+    that \(r = x y z\) which satisfy that
     \begin{enumerate}
         \item \(x y^i z \in R\) for each \(i \in \setnat\),
         \item \(\abs{y} > 0\), and
@@ -389,7 +390,7 @@ guarantee the existence of a pumping length \(p\) such that all words of length
 language with length \(p\) or greater but cannot be pumped. Finally, demonstrate
 that this word cannot be pumped by considering all ways of diving it into three
 such substrings described by the pumping lemma. The existence of this word
-contradicts the pumping lemme assuming the language is regular, and hence the
+contradicts the pumping lemme assuming the language is regular. Hence, the
 language is not regular.
 
 \subsection{Pushdown Automata and Context-Free Languages}
