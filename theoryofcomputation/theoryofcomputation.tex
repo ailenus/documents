@@ -379,10 +379,10 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
 
 \subsubsection{Nonregular Languages}
 
-\Bth[Pumping lemma]
-    If \(A\) is a regular language over \(\Sigma\), then there is a number \(p
-    \in \posint\), the \textbf{\textit{pumping length}}, such that if \(w \in
-    A\) is of length at least \(p\), then there exist \(x\), \(y\), and \(z \in
+\Bth[pumping lemma]
+    If \(A\) is a regular language over \(\Sigma\), then there is a \(p \in
+    \posint\), the \textbf{\textit{pumping length}}, such that if \(w \in A\) is
+    of length at least \(p\), then there exist \(x\), \(y\), and \(z \in
     \Sigma^*\) which satisfies
     \begin{enumerate}
         \item \(w = x y z\),
@@ -606,5 +606,61 @@ grammars. Such languages are {\bf inherently ambiguous}.
     The resultant context-free grammar is in Chomsky normal form, and therefore
     the theorem holds.
 \Epr
+
+\Blm
+    \label{lem3}
+    If a language is context-free, then some pushdown automaton recognises it.
+\Elm
+\Bpr
+    TODO
+\Epr
+
+\Blm
+    \label{lem4}
+    If a pushdown automaton recognises a language, then it is context-free.
+\Elm
+\Bpr
+    TODO
+\Epr
+
+\Bth
+    A language is context-free if and only if some pushdown automaton recognises
+    it.
+\Eth
+\Bpr
+    The theorem holds by \autoref{lem3} and \autoref{lem4}.
+\Epr
+
+\Bcr
+    Every regular language is context-free.
+\Ecr
+\Bpr
+    Let \(A\) be a regular language. Let \((\Sigma, S, \delta, s_0, F)\) be a
+    nondeterministic finite-state automaton recognising \(A\). Then the pushdown
+    automaton \((\Sigma, \nset, S, \delta', s_0, F)\) wherein \(\delta'(s, a,
+    \epsilon) = \delta(s, a)\) for each \(s \in S\) and each \(a \in \Sigma \cup
+    \set{\epsilon}\) also recognises \(A\). Thus, \(A\) is context-free.
+\Epr
+
+\subsubsection{Non-Context-Free Languages}
+
+\Bth[pumping lemma for context-free languages]
+    If \(A\) is a context-free language over \(\Sigma\), then there is a \(p \in
+    \posint\), the pumping length, such that if \(w \in A\) is of length at
+    least \(p\), then there exist \(u\), \(v\), \(x\), \(y\), and \(z \in
+    \Sigma^*\) which satisfies
+    \begin{enumerate}
+        \item \(w = u v x y z\),
+        \item \(u v^i x y^i z \in A\) for each \(i \in \setnat\),
+        \item \(\abs{v y} > 0\), and
+        \item \(\abs{v x y} \leq p\).
+    \end{enumerate}
+\Eth
+\Bpr
+    TODO
+\Epr
+
+\subsubsection{Deterministic Pushdown Automata and Deterministic Context-Free
+Languages}
 
 \Edc
