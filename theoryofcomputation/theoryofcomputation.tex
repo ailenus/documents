@@ -79,7 +79,7 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
 \begin{enumerate}
     \item \(r_0 = s_0\),
     \item \(r_{i + 1} \in \delta(r_i, w_i)\) for \(i \in \Nln[n + 1]\), and
-    \item \(r_{n + 1} \in F\)
+    \item \(r_{n + 1} \in F\).
 \end{enumerate}
 
 We say that two automata are equivalent if they recognise the same language.
@@ -158,6 +158,8 @@ If \(R = R_1 R_2\), then \(L(R) = L(R_1) L(R_2)\)\footnote{If \(A\) and \(B\)
 are languages, \(A B\) denotes the concatenation of \(A\) and \(B\), defined
 as \(A B = \set{a b : a \in A \land b \in B}\).}. If \(R = R_1^*\), then \(L(R) =
 L(R_1)^*\).
+
+\subsubsection{Equivalence Between Finite-State Automata and Regular Languages}
 
 \Blm
     \label{lem1}
@@ -374,7 +376,7 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
     automaton recognises it.
 \Ecr
 \Bpr
-    The corollary holds by \autoref{thm1} and \autoref{thm2}
+    The corollary holds by \autoref{thm1} and \autoref{thm2}.
 \Epr
 
 \subsubsection{Nonregular Languages}
@@ -383,7 +385,7 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
     If \(A\) is a regular language over \(\Sigma\), then there is a \(p \in
     \posint\), the \textbf{\textit{pumping length}}, such that if \(w \in A\) is
     of length at least \(p\), then there exist \(x\), \(y\), and \(z \in
-    \Sigma^*\) which satisfies
+    \Sigma^*\) which satisfy
     \begin{enumerate}
         \item \(w = x y z\),
         \item \(x y^i z \in A\) for each \(i \in \setnat\),
@@ -607,6 +609,8 @@ grammars. Such languages are {\bf inherently ambiguous}.
     the theorem holds.
 \Epr
 
+\subsubsection{Equivalence Between Pushdown Automata and Context-Free Languages}
+
 \Blm
     \label{lem3}
     If a language is context-free, then some pushdown automaton recognises it.
@@ -648,7 +652,7 @@ grammars. Such languages are {\bf inherently ambiguous}.
     If \(A\) is a context-free language over \(\Sigma\), then there is a \(p \in
     \posint\), the pumping length, such that if \(w \in A\) is of length at
     least \(p\), then there exist \(u\), \(v\), \(x\), \(y\), and \(z \in
-    \Sigma^*\) which satisfies
+    \Sigma^*\) which satisfy
     \begin{enumerate}
         \item \(w = u v x y z\),
         \item \(u v^i x y^i z \in A\) for each \(i \in \setnat\),
