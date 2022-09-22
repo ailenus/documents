@@ -14,19 +14,24 @@
 An {\bf alphabet} is a finite set \(\Sigma\), and a {\bf word over the alphabet
 \(\Sigma\)} is a finite sequence of the elements of \(\Sigma\). If a word \(w\)
 is the sequence \((w_0, \ldots, w_n)\) for some \(n \in \setnat\), we may write
-the word as the concatenation \(w_0 \cdots w_n\). The empty word is denoted by
-\(\epsilon\). The set of all words over \(\Sigma\) is
+\(w\) as the concatenation \(w_0 \cdots w_n\). If \(w = a \cdots a\) wherein
+\(a\) is repeated \(n\) times for some \(n \in \posint\), we may write \(w\) as
+\(a^n\). The empty word is denoted by \(\epsilon\), and for any element \(a\) of
+an alphabet \(a^0\) is the empty word. The set of all words over \(\Sigma\) is
 \(\Sigma^*\)\footnote{\(^*\) denotes the unary operator of Kleene star, defined
 as \(A^* = \set{a_0 \cdots a_n : n \in \setnat \land \forall \, i \in \Nln[n +
-1] \, (a_i \in A)} \cup \set{\epsilon}\).}. A {\bf formal language over the
-alphabet \(\Sigma\)} is a subset of \(\Sigma^*\).
+1] \, (a_i \in A)} \cup \set{\epsilon}\) for a subset \(A\) of an alphabet, and
+\(a^* = \set{a^n : n \in \setnat}\) for an element \(a\) of an alphabet.}. A
+{\bf formal language over the alphabet \(\Sigma\)} is a subset of \(\Sigma^*\).
+The attributive ``formal'' connotes that such languages lack semantics.
 
 An {\bf automaton} is an ordered sequence that {\bf accepts} some words over an
 alphabet. The set of words an automaton accepts forms a language, which is
 unique, in which case we say the automaton {\bf recognises} the language. Given
 an automaton \(M\), we may speak of the unique language recognised by \(M\) as
 the {\bf language of the automaton \(M\)}. An automaton may accept no word, in
-which case the language thereof is \(\nset\).
+which case the language thereof is \(\nset\). Two automata are equivalent if
+they recognise the same language.
 
 \subsection{Finite-State Automata and Regular Languages}
 
@@ -34,55 +39,53 @@ which case the language thereof is \(\nset\).
 
 \Bdf
     A {\bf deterministic finite-state automaton} is an ordered quintuple
-    \((\Sigma, S, \delta, s_0, F)\) wherein
+    \((\Sigma, Q, \delta, q_0, F)\) wherein
     \begin{enumerate}
         \item \(\Sigma\) is an alphabet,
-        \item \(S\) is a finite set of {\bf states},
-        \item \(\map{\delta}{S \times \Sigma}{S}\) is the {\bf transition
+        \item \(Q\) is a finite set of {\bf states},
+        \item \(\map{\delta}{Q \times \Sigma}{Q}\) is the {\bf transition
         function},
-        \item \(s_0 \in S\) is the {\bf initial state}, and
-        \item \(F \subseteq S\) is the set of {\bf accepting states}.
+        \item \(q_0 \in Q\) is the {\bf initial state}, and
+        \item \(F \subseteq Q\) is the set of {\bf accepting states}.
     \end{enumerate}
 \Edf
 
-Let \(M = (\Sigma, S, \delta, s_0, F)\) be a deterministic finite-state
+Let \(M = (\Sigma, Q, \delta, q_0, F)\) be a deterministic finite-state
 automaton and let \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) be a word
 over \(\Sigma\).  Then \(M\) accepts \(w\) if there exists a sequence of states
-\((r_0, \ldots, r_{n + 1})\) in \(S\) such that
+\((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \begin{enumerate}
-    \item \(r_0 = s_0\),
+    \item \(r_0 = q_0\),
     \item \(\delta(r_i, w_i) = r_{i + 1}\) for \(i \in \Nln[n + 1]\), and
     \item \(r_{n + 1} \in F\).
 \end{enumerate}
-Furthermore, \(M\) accepts \(\epsilon\) if \(s_0 \in F\).
+Furthermore, \(M\) accepts \(\epsilon\) if \(q_0 \in F\).
 
 \subsubsection{Nondeterministic Finite-State Automata}
 
 \Bdf
     A {\bf nondeterministic finite-state automaton} is an ordered quintuple
-    \((\Sigma, S, \delta, s_0, F)\) wherein
+    \((\Sigma, Q, \delta, q_0, F)\) wherein
     \begin{enumerate}
         \item \(\Sigma\) is an alphabet,
-        \item \(S\) is a finite set of states,
-        \item \(\map{\delta}{S \times (\Sigma \cup \set{\epsilon})}{\pow(S)}\)
+        \item \(Q\) is a finite set of states,
+        \item \(\map{\delta}{Q \times (\Sigma \cup \set{\epsilon})}{\pow(Q)}\)
         is the transition function,
-        \item \(s_0 \in S\) is the initial state, and
-        \item \(F \subseteq S\) is the set of accepting states.
+        \item \(q_0 \in Q\) is the initial state, and
+        \item \(F \subseteq Q\) is the set of accepting states.
     \end{enumerate}
 \Edf
 
-Let \(M = (\Sigma, S, \delta, s_0, F)\) be a nondeterministic finite-state
-automaton and let \(w\) be a word over \(\Sigma\). Then \(M\) accepts \(w\) if
+Let \(N = (\Sigma, Q, \delta, q_0, F)\) be a nondeterministic finite-state
+automaton and let \(w\) be a word over \(\Sigma\). Then \(N\) accepts \(w\) if
 \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) such that each \(w_i \in \Sigma
 \cup \set{\epsilon}\) for \(i \in \Nln[n + 1]\) and that there exists a sequence
-of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
+of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \begin{enumerate}
-    \item \(r_0 = s_0\),
+    \item \(r_0 = q_0\),
     \item \(r_{i + 1} \in \delta(r_i, w_i)\) for \(i \in \Nln[n + 1]\), and
     \item \(r_{n + 1} \in F\).
 \end{enumerate}
-
-We say that two automata are equivalent if they recognise the same language.
 
 \Bth
     \label{thm1}
@@ -90,38 +93,38 @@ We say that two automata are equivalent if they recognise the same language.
     deterministic finite-state automaton.
 \Eth
 \Bpr
-    Let \(N = (\Sigma, S, \delta, s_0, F)\) be the nondeterministic finite-state
+    Let \(N = (\Sigma, Q, \delta, q_0, F)\) be the nondeterministic finite-state
     automaton recognising some language \(A\) over \(\Sigma\).  We construct a
-    deterministic finite-state automaton \(M = (\Sigma, S', \delta', s_0', F')\)
+    deterministic finite-state automaton \(M = (\Sigma, Q', \delta', q_0', F')\)
     recognising \(A\).
 
-    We first see that \(S' = \pow(S)\) and that \(F' = \set{R \in S' : R \cap F
+    We first see that \(Q' = \pow(Q)\) and that \(F' = \set{R \in Q' : R \cap F
     \neq \nset}\).
 
-    Let \(\map{\delta_0}{S \times \set{\epsilon}}{\pow(S)}\) be defined as
-    \(\delta_0(s, \epsilon) = \delta(s, \epsilon)\) for each \(s \in S\). Assume
+    Let \(\map{\delta_0}{Q \times \set{\epsilon}}{\pow(Q)}\) be defined as
+    \(\delta_0(q, \epsilon) = \delta(q, \epsilon)\) for each \(q \in Q\). Assume
     first that, thus induced, \(\delta_0 = \nset\) for \(N\). For each \(R \in
-    S'\) and for each \(a \in \Sigma\), let \(\delta'(R, a) = \set*{s \in S :
-    \exists \, r \in R \, \big(s \in \delta(r, a)\big)}\). Equivalently,
+    Q'\) and for each \(a \in \Sigma\), let \(\delta'(R, a) = \set*{q \in Q :
+    \exists \, r \in R \, \big(q \in \delta(r, a)\big)}\). Equivalently,
     \[
         \delta'(R, a) = \bigcup_{r \in R} \delta(r, a).
     \]
-    Also let \(s_0' = \set{s_0'}\). We then see that \(M = (\Sigma, S', \delta',
-    s_0', F')\) recognises \(A\).
+    Also let \(q_0' = \set{q_0'}\). We then see that \(M = (\Sigma, Q', \delta',
+    q_0', F')\) recognises \(A\).
 
-    Assume then that \(\delta_0 \neq \nset\) for \(N\). For each \(Q \subseteq S
+    Assume then that \(\delta_0 \neq \nset\) for \(N\). For each \(R \subseteq Q
     \), let
     \[
-        E(Q) = \set*{s \in S : \exists \, n \in \setnat \, \exists \, r \in Q \,
-        \big(s = \delta^n(r, \epsilon)\big)}.
+        E(R) = \set*{q \in Q : \exists \, n \in \setnat \, \exists \, r \in R \,
+        \big(q = \delta^n(r, \epsilon)\big)}.
     \]
     We then let
     \[
-        \delta'(Q, a) = \set*{s \in S : \exists \, r \in Q \, s \in
+        \delta'(R, a) = \set*{q \in Q : \exists \, r \in R \, s \in
         E\big(\delta(r, a)\big)}
     \]
-    and let \(s_0' = E(\set{s_0})\). We similarly see that \(M = (\Sigma, S',
-    \delta', s_0', F')\) recognises \(A\).
+    and let \(q_0' = E(\set{q_0})\). We similarly see that \(M = (\Sigma, Q',
+    \delta', q_0', F')\) recognises \(A\).
 
     Therefore, the theorem holds.
 \Epr
@@ -178,11 +181,11 @@ L(R_1)^*\).
             ->,>=latex,auto,semithick,
             node distance=2.5cm
         ]
-        \node[initial,state] (s) {\(s\)};
+        \node[initial,state] (q) {\(q\)};
         \end{tikzpicture}
     \end{figure}
 
-    \noindent Equivalently, \(N = (\Sigma, \set{s}, \delta, s, \nset)\) wherein
+    \noindent Equivalently, \(N = (\Sigma, \set{q}, \delta, q, \nset)\) wherein
     \(\delta(r, b) = \nset\) for any \(r\) and \(b\).
 
     If \(R = \epsilon\), then the nondeterministic finite-state automaton \(N\)
@@ -193,11 +196,11 @@ L(R_1)^*\).
             ->,>=latex,auto,semithick,
             node distance=2.5cm
         ]
-        \node[initial,state,accepting] (s) {\(s\)};
+        \node[initial,state,accepting] (q) {\(q\)};
         \end{tikzpicture}
     \end{figure}
 
-    \noindent Equivalently, \(N = (\Sigma, \set{s}, \delta, s, \set{s})\)
+    \noindent Equivalently, \(N = (\Sigma, \set{q}, \delta, q, \set{q})\)
     wherein \(\delta(r, b) = \nset\) for any \(r\) and \(b\).
 
     If \(R = a\) for some \(a \in \Sigma\), then the nondeterministic
@@ -209,69 +212,69 @@ L(R_1)^*\).
             ->,>=latex,auto,semithick,
             node distance=2.5cm
         ]
-        \node[initial,state] (s0) {\(s_0\)};
-        \node[state,accepting] (s1) [right of=s0] {\(s_1\)};
-        \path (s0) edge node {\(a\)} (s1);
+        \node[initial,state] (q0) {\(q_0\)};
+        \node[state,accepting] (q1) [right of=q0] {\(q_1\)};
+        \path (q0) edge node {\(a\)} (q1);
         \end{tikzpicture}
     \end{figure}
 
-    \noindent Equivalently, \(N = (\Sigma, \set{s_0, s_1}, \delta, s_0,
-    \set{s_1})\) wherein \(\delta(s_0, a) = \set{s_1}\) and \(\delta(r, b) =
-    \nset\) if \(r \neq s_0\) or \(b \neq a\).
+    \noindent Equivalently, \(N = (\Sigma, \set{q_0, q_1}, \delta, q_0,
+    \set{q_1})\) wherein \(\delta(q_0, a) = \set{q_1}\) and \(\delta(r, b) =
+    \nset\) if \(r \neq q_0\) or \(b \neq a\).
 
     Assume that \(R_1\) and \(R_2\) are regular expressions over \(\Sigma\),
-    that \(N_1 = (\Sigma, S_1, \delta_1, s_1, F_1)\) is a nondeterministic
+    that \(N_1 = (\Sigma, Q_1, \delta_1, q_1, F_1)\) is a nondeterministic
     finite-state automaton recognising \(L(R_1)\), and that \(N_2 = (\Sigma,
-    S_2, \delta_2, s_2, F_2)\) is a nondeterministic finite-state automaton
+    Q_2, \delta_2, q_2, F_2)\) is a nondeterministic finite-state automaton
     recognising \(L(R_2)\).
 
-    If \(R = R_1 \cup R_2\), let \(s_0\) be a state not in \(S_1\) or \(S_2\),
-    let \(S = S_1 \cup s_2 \cup \set{s_0}\), and let \(F = F_1 \cup F_2\).
-    Define \(\map{\delta}{S \times (\Sigma \cup \set{\epsilon})}{\pow(S)}\) so
-    that for each \(r \in S\) and each \(b \in \Sigma \cup \set{\epsilon}\) we
-    have
+    If \(R = R_1 \cup R_2\), let \(\set{q_0}\) be disjoint from \(Q_1\) and
+    \(Q_2\), let \(Q = Q_1 \cup Q_2 \cup \set{q_0}\), and let \(F = F_1 \cup
+    F_2\). Define \(\map{\delta}{Q \times (\Sigma \cup
+    \set{\epsilon})}{\pow(Q)}\) so that for each \(r \in Q\) and each \(b \in
+    \Sigma \cup \set{\epsilon}\) we have
     \[
         \delta(r, b) = \begin{cases}
-            \delta_1(r, b) & \text{if }\ r \in S_1,\\
-            \delta_2(r, b) & \text{if }\ r \in S_2,\\
-            \set{s_1, s_2} & \text{if }\ r = s_0 \land b = \epsilon \text{,
+            \delta_1(r, b) & \text{if }\ r \in Q_1,\\
+            \delta_2(r, b) & \text{if }\ r \in Q_2,\\
+            \set{q_1, q_2} & \text{if }\ r = q_0 \land b = \epsilon \text{,
             and}\\
             \nset & \text{otherwise.}
         \end{cases}
     \]
-    We see that \(N = (\Sigma, S, \delta, s_0, F)\) is a nondeterministic
+    We see that \(N = (\Sigma, Q, \delta, q_0, F)\) is a nondeterministic
     finite-state automaton recognising \(A\).
 
-    If \(R = R_1 R_2\), let \(S = S_1 \cup S_2\). Define \(\map{\delta}{S \times
-    (\Sigma \cup \set{\epsilon})}{\pow(S)}\) so that for each \(r \in S\) and
+    If \(R = R_1 R_2\), let \(Q = Q_1 \cup Q_2\). Define \(\map{\delta}{Q \times
+    (\Sigma \cup \set{\epsilon})}{\pow(Q)}\) so that for each \(r \in Q\) and
     each \(b \in \Sigma \cup \set{\epsilon}\) we have
     \[
         \delta(r, b) = \begin{cases}
-            \delta_1(r, b) & \text{if }\ (r \in S_1 \land r \not\in F_1) \lor (r
+            \delta_1(r, b) & \text{if }\ (r \in Q_1 \land r \not\in F_1) \lor (r
             \in F_1 \land b \neq \epsilon),\\
-            \delta_1(r, b) \cup \set{s_2} & \text{if }\ r \in F_1 \land b =
+            \delta_1(r, b) \cup \set{q_2} & \text{if }\ r \in F_1 \land b =
             \epsilon \text{, and}\\
             \delta_2(r, b) & \text{otherwise.}
         \end{cases}
     \]
-    We see that \(N = (\Sigma, S, \delta, s_1, F_2)\) is a nondeterministic
+    We see that \(N = (\Sigma, Q, \delta, q_1, F_2)\) is a nondeterministic
     finite-state automaton recognising \(A\).
 
-    If \(R = R_1^*\), let \(s_0\) be a state not in \(S_1\), let \(S = S_1 \cup
-    \set{s_0}\), and let \(F = F_1 \cup \set{s_0}\). Define \(\map{\delta}{S
-    \times (\Sigma \cup \set{\epsilon})}{\pow(S)}\) so that for each \(r \in S\)
+    If \(R = R_1^*\), let \(s_0\) be a state not in \(Q_1\), let \(Q = Q_1 \cup
+    \set{q_0}\), and let \(F = F_1 \cup \set{q_0}\). Define \(\map{\delta}{Q
+    \times (\Sigma \cup \set{\epsilon})}{\pow(Q)}\) so that for each \(r \in Q\)
     and each \(b \in \Sigma \cup \set{\epsilon}\) we have
     \[
         \delta(r, b) = \begin{cases}
-            \delta_1(r, b) & \text{if }\ (r \in S_1 \land r \not\in F_1) \lor (r
+            \delta_1(r, b) & \text{if }\ (r \in Q_1 \land r \not\in F_1) \lor (r
             \in F_1 \land b \neq \epsilon),\\
-            \delta_1(r, b) \cup \set{s_1} & \text{if }\ r \in F_1 \land b =
+            \delta_1(r, b) \cup \set{q_1} & \text{if }\ r \in F_1 \land b =
             \epsilon,\\
-            \set{s_1} & \text{if }\ r = s_0 \land b = \epsilon \text{, and}\\
+            \set{q_1} & \text{if }\ r = q_0 \land b = \epsilon \text{, and}\\
             \nset & \text{otherwise.}
         \end{cases}
     \]
-    We see that \(N = (\Sigma, S, \delta, s_0, F)\) is a nondeterministic
+    We see that \(N = (\Sigma, Q, \delta, q_0, F)\) is a nondeterministic
     finite-state automaton recognising \(A\).
 
     Therefore, the lemma holds by the principle of induction.
@@ -279,26 +282,26 @@ L(R_1)^*\).
 
 \Bdf
     A {\bf generalised nondeterministic finite-state automaton} is an ordered
-    quintuple \((\Sigma, S, \delta, s_0, s_1)\) wherein
+    quintuple \((\Sigma, Q, \delta, q_0, q_1)\) wherein
     \begin{enumerate}
         \item \(\Sigma\) is an alphabet,
-        \item \(S\) is a finite set of states,
-        \item \(\map{\delta}{(S \setminus \set{s_1}) \times (S \setminus
-        \set{s_0})}{\mathcal{R}}\) wherein \(\mathcal{R}\) is the set of all
+        \item \(Q\) is a finite set of states,
+        \item \(\map{\delta}{(Q \setminus \set{q_1}) \times (Q \setminus
+        \set{q_0})}{\mathcal{R}}\) wherein \(\mathcal{R}\) is the set of all
         regular expressions over \(\Sigma\) is the transition function,
-        \item \(s_0 \in S\) is the initial state, and
-        \item \(s_1 \neq s_0 \in S\) is the accepting state.
+        \item \(q_0 \in Q\) is the initial state, and
+        \item \(q_1 \neq q_0 \in Q\) is the accepting state.
     \end{enumerate}
 \Edf
 
-Let \(M = (\Sigma, S, \delta, s_0, s_1)\) be a generalised nondeterministic
+Let \(G = (\Sigma, Q, \delta, q_0, q_1)\) be a generalised nondeterministic
 finite-state automaton and let \(w\) be a word over \(\Sigma\). Then \(M\)
 accepts \(w\) if \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) such that each
 \(w_i \in \Sigma^*\) for \(i \in \Nln[n + 1]\) and that there exists a sequence
-of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
+of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \begin{enumerate}
-    \item \(r_0 = s_0\),
-    \item \(r_{n + 1} = s_1\), and
+    \item \(r_0 = q_0\),
+    \item \(r_{n + 1} = q_1\), and
     \item \(w_i \in L(R_i)\) wherein \(R_i = \delta(r_i, r_{i + 1})\) for \(i
     \in \Nln[n + 1]\).
 \end{enumerate}
@@ -309,23 +312,23 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
     is regular.
 \Elm
 \Bpr
-    Let \(N = (\Sigma, S, \delta, s_0, F)\) be a nondeterministic finite-state
+    Let \(N = (\Sigma, Q, \delta, q_0, F)\) be a nondeterministic finite-state
     automaton recognising the language \(A\) over \(\Sigma\). We argue that
     \(A\) is described by some regular expression \(R\) over \(\Sigma\).
 
-    Let \(G = (\Sigma, S', \delta', s_0', s_1')\) be a generalised
+    Let \(G = (\Sigma, Q', \delta', q_0', q_1')\) be a generalised
     nondeterministic finite-state automaton such that
     \begin{enumerate}
-        \item \(s_0' \not\in S\),
-        \item \(s_1' \not\in S\),
-        \item \(S' = S \cup \set{s_0', s_1'}\), and
-        \item for each \(r_0 \in S \cup \set{s_0'}\) and each \(r_1 \in S \cup
-        \set{s_1'}\) we have
+        \item \(q_0' \not\in Q\),
+        \item \(q_1' \not\in Q\),
+        \item \(Q' = Q \cup \set{q_0', q_1'}\), and
+        \item for each \(r_0 \in Q \cup \set{q_0'}\) and each \(r_1 \in Q \cup
+        \set{q_1'}\) we have
             \[
                 \delta'(r_0, r_1) = \begin{cases}
-                        \epsilon & \text{if }\ (r_0 = s_0' \land r_1 = s_0) \lor
-                        (r_0 \in F \land r_1 = s_1'),\\
-                        R' & \text{if }\ r_0 \in S \land r_1 \in S \land \forall
+                        \epsilon & \text{if }\ (r_0 = q_0' \land r_1 = q_0) \lor
+                        (r_0 \in F \land r_1 = q_1'),\\
+                        R' & \text{if }\ r_0 \in Q \land r_1 \in Q \land \forall
                         \, r \in L(R') \, \big(r_1 \in \delta(r_0, r)\big)
                         \text{, and}\\
                         \nset & \text{otherwise.}
@@ -335,23 +338,23 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
     We see that \(G\) also recognises \(A\). We shall then convert \(G\) into
     regular expression \(R\).
 
-    Let \(k = \abs{S'}\).
+    Let \(k = \abs{Q'}\).
 
-    If \(k = 2\), then \(S' = \set{s_0', s_1'}\), and so \(R = \delta'(s_0',
-    s_1')\) is the regular expression.
+    If \(k = 2\), then \(Q' = \set{q_0', q_1'}\), and so \(R = \delta'(q_0',
+    q_1')\) is the regular expression.
 
-    If \(k > 2\), let \(s \in S'\) be distinct from \(s_0'\) and \(s_1'\), and
-    let \(G' = (\Sigma, S'', \delta'', s_0', s_1')\) be a generalised
+    If \(k > 2\), let \(q \in Q'\) be distinct from \(q_0'\) and \(q_1'\), and
+    let \(G' = (\Sigma, Q'', \delta'', q_0', q_1')\) be a generalised
     nondeterministic finite-state automaton such that
     \begin{enumerate}
-        \item \(S'' = S' \setminus \set{s}\),
-        \item for each \(r_0 \in S'' \setminus \set{s_0'}\) and each \(r_1 \in
-        S'' \setminus \set{s_1'}\) we have
+        \item \(Q'' = Q' \setminus \set{q}\),
+        \item for each \(r_0 \in Q'' \setminus \set{q_0'}\) and each \(r_1 \in
+        Q'' \setminus \set{q_1'}\) we have
         \[
             \delta''(r_0, r_1) = R_0 R_1^* R_2 \cup R_3
         \]
-        wherein \(R_0 = \delta'(r_0, s)\), \(R_1 = \delta'(s, s)\), \(R_2 =
-        \delta'(s, r_1)\), and \(R_3 = \delta'(r_0, r_1)\).
+        wherein \(R_0 = \delta'(r_0, q)\), \(R_1 = \delta'(q, q)\), \(R_2 =
+        \delta'(q, r_1)\), and \(R_3 = \delta'(r_0, r_1)\).
     \end{enumerate}
     We see that \(G'\) is equivalent to \(G\).
 
@@ -394,8 +397,8 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
     \end{enumerate}
 \Eth
 \Bpr
-    Let \(M = (\Sigma, S, \delta, s_0, F)\) be a deterministic finite-state
-    automaton recognising \(A\) and let \(p = \abs{S}\).
+    Let \(M = (\Sigma, Q, \delta, q_0, F)\) be a deterministic finite-state
+    automaton recognising \(A\) and let \(p = \abs{Q}\).
 
     Let \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) be a word in \(R\) of
     length \(n + 1\) which satisfies \(n + 1 \geq p\). Let \(r_0, \ldots, r_{n +
@@ -433,30 +436,30 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
 \subsubsection{Pushdown Automata}
 
 \Bdf
-    A {\bf pushdown automaton} is an ordered sextuple \((\Sigma, \Gamma, S,
-    \delta, s_0, F)\) wherein
+    A {\bf pushdown automaton} is an ordered sextuple \((\Sigma, \Gamma, Q,
+    \delta, q_0, F)\) wherein
     \begin{enumerate}
         \item \(\Sigma\) is an alphabet, for the input,
         \item \(\Gamma\) is another alphabet, for the {\bf stack},
-        \item \(S\) is a finite set of states,
-        \item \(\map{\delta}{S \times (\Sigma \cup \set{\epsilon}) \times
-        (\Gamma \cup \set{\epsilon})}{\pow\big(S \times (\Gamma \cup
+        \item \(Q\) is a finite set of states,
+        \item \(\map{\delta}{Q \times (\Sigma \cup \set{\epsilon}) \times
+        (\Gamma \cup \set{\epsilon})}{\pow\big(Q \times (\Gamma \cup
         \set{\epsilon})\big)}\) is the transition function,
-        \item \(s_0 \in S\) is the initial state, and
-        \item \(F \subseteq S\) is the set of final or accepting states.
+        \item \(q_0 \in Q\) is the initial state, and
+        \item \(F \subseteq Q\) is the set of final or accepting states.
     \end{enumerate}
 \Edf
 
-Let \(M = (\Sigma, \Gamma, S, \delta, s_0, F)\) be a pushdown automaton and let
+Let \(P = (\Sigma, \Gamma, Q, \delta, q_0, F)\) be a pushdown automaton and let
 \(w\) be a word over \(\Sigma\). Then \(M\) accepts \(w = w_0 \cdots w_n\)
 wherein \(n \in \setnat\) such that \(w_i \in \Sigma \cup \set{\epsilon}\) for
 \(i \in \Nln[n + 1]\) and that there exist a sequence of states \((r_0, \ldots,
-r_{n + 1})\) in \(S\) and a sequence of words \((q_0, \ldots, q_{n + 1})\) in
+r_{n + 1})\) in \(Q\) and a sequence of words \((s_0, \ldots, s_{n + 1})\) in
 \(\Gamma^*\) such that
 \begin{enumerate}
-    \item \(r_0 = s_0\),
-    \item \(q_0 = \epsilon\),
-    \item \((r_{i + 1}, b) \in \delta(r_i, w_i, a)\), \(q_i = a t\), and \(q_{i
+    \item \(r_0 = q_0\),
+    \item \(s_0 = \epsilon\),
+    \item \((r_{i + 1}, b) \in \delta(r_i, w_i, a)\), \(s_i = a t\), and \(s_{i
     + 1} = b t\) for some \(a\) and \(b \in \Gamma \cup \set{\epsilon}\) and
     some \(t \in \Gamma^*\) for \(i \in \Nln[n + 1]\), and
     \item \(r_{n + 1} \in F\).
@@ -475,36 +478,36 @@ r_{n + 1})\) in \(S\) and a sequence of words \((q_0, \ldots, q_{n + 1})\) in
             ->,>=latex,auto,semithick,
             node distance=2.5cm
         ]
-        \node[initial,state,accepting] (s0) {\(s_0\)};
-        \node[state] (s1) [right of=s0] {\(s_1\)};
-        \node[state] (s2) [below of=s1] {\(s_2\)};
-        \node[state,accepting] (s3) [left of=s2] {\(s_3\)};
-        \path (s0) edge node {\(\epsilon, \epsilon \to \$\)} (s1)
-        (s1) edge node {\(1, 0 \to \epsilon\)} (s2)
+        \node[initial,state,accepting] (q0) {\(q_0\)};
+        \node[state] (q1) [right of=q0] {\(q_1\)};
+        \node[state] (q2) [below of=q1] {\(q_2\)};
+        \node[state,accepting] (q3) [left of=q2] {\(q_3\)};
+        \path (q0) edge node {\(\epsilon, \epsilon \to \$\)} (q1)
+        (q1) edge node {\(1, 0 \to \epsilon\)} (q2)
         edge [loop right] node {\(0, \epsilon \to 0\)} ()
-        (s2) edge node {\(\epsilon, \$ \to \epsilon\)} (s3)
+        (q2) edge node {\(\epsilon, \$ \to \epsilon\)} (q3)
         edge [loop right] node {\(1, 0 \to \epsilon\)} ();
         \end{tikzpicture}
     \end{figure}
 
-    \noindent Equivalently, \(M = (\Sigma, \Gamma, S, \delta, s_0, F)\)
+    \noindent Equivalently, \(M = (\Sigma, \Gamma, Q, \delta, q_0, F)\)
     wherein
     \begin{enumerate}
         \item \(\Gamma = \set{0, \$}\),
-        \item \(S = \set{s_0, s_1, s_2, s_3}\),
-        \item \(F = \set{s_0, s_3}\), and
-        \item for each \(s \in S\), each \(a \in \Sigma \cup
+        \item \(Q = \set{q_0, q_1, q_2, q_3}\),
+        \item \(F = \set{q_0, q_3}\), and
+        \item for each \(q \in Q\), each \(a \in \Sigma \cup
             \set{\epsilon}\), and each \(b \in \Gamma \cup
             \set{\epsilon}\) we have
             \[
                 \delta(s, a, b) = \begin{cases}
-                    \set{(s_1, \$)} & \text{if } s = s_0 \land a = \epsilon
+                    \set{(q_1, \$)} & \text{if } q = q_0 \land a = \epsilon
                     \land b = \epsilon,\\
-                    \set{(s_1, 0)} & \text{if } s = s_1 \land a = 0 \land b =
+                    \set{(q_1, 0)} & \text{if } q = q_1 \land a = 0 \land b =
                     \epsilon,\\
-                    \set{(s_2, \epsilon)} & \text{if } (s = s_1 \lor s = s_2)
+                    \set{(q_2, \epsilon)} & \text{if } (q = q_1 \lor q = q_2)
                     \land a = 1 \land b = 0,\\
-                    \set{(s_3, \epsilon)} & \text{if } s = s_2 \land a =
+                    \set{(q_3, \epsilon)} & \text{if } q = q_2 \land a =
                     \epsilon \land b = \$ \text{, and}\\
                     \nset & \text{otherwise}
                 \end{cases}
@@ -624,7 +627,64 @@ grammars. Such languages are {\bf inherently ambiguous}.
     If a language is context-free, then some pushdown automaton recognises it.
 \Elm
 \Bpr
-    TODO
+    Let \(\Sigma\) be an alphabet, let \(A\) be a context-free language over
+    \(\Sigma\), and let \(G = (\Sigma, V, R, S)\) be a context-free grammar
+    which generates \(A\).  We convert \(G\) into an equivalent pushdown
+    automaton \(P = (\Sigma, \Gamma, Q, \delta, q_0, F)\).
+
+    Let \(a \in \Sigma \cup \set{\epsilon}\), let \(s \in \Gamma \cup
+    \set{\epsilon}\), and let \(q\) and \(r \in Q\). Let \(u = u_0 \cdots u_i\)
+    wherein \(i \in \setnat\) be a word over \(\Gamma\). We denote by \((r, u)
+    \in \delta(q, a, s)\) that there exist a sequence \((q_0, \ldots, q_{i -
+    1})\) in \(Q\) such that
+    \begin{enumerate}
+        \item \((q_0, u_i) \in \delta(q, a, s)\),
+        \item \(\set{(q_{j + 1}, u_{i - j - 1})} = \delta(q_j, \epsilon,
+        \epsilon)\) for \(j \in \Nln[i - 1]\), and
+        \item \(\set{(r, u_0)} = \delta(q_{i - 1}, \epsilon, \epsilon)\).
+    \end{enumerate}
+
+    Let \(Q = E \cup \set{q_0, q_1, q_2}\) and let \(F = \set{q_2}\). Let
+    \(\set{\$}\) be disjoint from \(\Sigma\) and \(V\), and let \(\Gamma =
+    \Sigma \cup V \cup \set{\$}\). Let \(\delta\) be defined as
+    \[
+        \delta(q, a, s) = \begin{cases}
+            \set{(q_1, S \$)} & \text{if } q = q_0 \land a = \epsilon \land s =
+            \epsilon,\\
+            \set{(q_1, w)} & \text{if } q = q_1 \land a = \epsilon \land s = A
+            \land (A \to w) \in R,\\
+            \set{(q_1, \epsilon)} & \text{if } q = q_1 \land a = b \land s = b
+            \in \Sigma,\\
+            \set{(q_2, \epsilon)} & \text{if } q = q_1 \land a = \epsilon \land
+            s = \$\text{, and},\\
+            \nset & \text{otherwise.}
+        \end{cases}
+    \]
+    Let \(E \subseteq Q\) consist of those states necessary to make the
+    \(\delta\) as described above well-defined per the notation given in the
+    previous paragraph.
+
+    The following diagram illustrates the constructed \(P\).
+    \begin{figure}[!h]
+        \centering
+        \begin{tikzpicture}[
+            ->,>=latex,auto,semithick,
+            node distance=2.5cm
+        ]
+        \node[initial,state] (q0) {\(q_0\)};
+        \node[state] (q1) [below of=q0] {\(q_1\)};
+        \node[state,accepting] (q2) [below of=q1] {\(q_2\)};
+        \path (q0) edge node {\(\epsilon, \epsilon \to S \$\)} (q1)
+        (q1) edge [loop right] node {\begin{tabular}{l l}
+            \(\epsilon, A \to w\) & for production rule \(A \to w\)\\
+            \(b, b \to \epsilon\) & for terminal \(b\)
+        \end{tabular}} ()
+        edge node {\(\epsilon, \$ \to \epsilon\)} (q2);
+        \end{tikzpicture}
+    \end{figure}
+
+    Thus defined, the pushdown automaton \(P\) recognises \(A\). Therefore, the
+    lemma holds.
 \Epr
 
 \Blm
@@ -632,6 +692,23 @@ grammars. Such languages are {\bf inherently ambiguous}.
     If a pushdown automaton recognises a language, then it is context-free.
 \Elm
 \Bpr
+    Let \(P = (\Sigma, \Gamma, Q, \delta, q_0, F)\) be a pushdown automaton. We
+    construct a context-free grammar \(G = (\Sigma, V, R, S)\) which generates
+    all words over \(\Sigma\) accepted by \(P\).
+
+    We first let \(P' = (\Sigma, \Gamma, Q, \delta', q_0, F')\) be a pushdown
+    automaton equivalent to \(P\) such that
+    \begin{enumerate}
+        \item \(F' = \set{q_1}\),
+        \item there exist \(q \in Q\), \(a \in \Sigma \cup \set{\epsilon}\), and
+        \(s \in \Gamma \cup \set{\epsilon}\) which satisfy \(\set{q_1, \epsilon}
+        \in \delta'(q, a, s)\), and
+        \item if \(\set{r_1, s_1} \in \delta(r_0, a, s_0)\) for some \(r_0\) and
+        \(r_1 \in Q\), \(a \in \Sigma \cup \set{\epsilon}\), and \(s_0\) and
+        \(s_1 \in \Gamma \cup \set{\epsilon}\), then \(s_0 = \epsilon\) or \(s_1
+        = \epsilon\).
+    \end{enumerate}
+
     TODO
 \Epr
 
@@ -654,6 +731,27 @@ grammars. Such languages are {\bf inherently ambiguous}.
     \delta(s, a)\) for each \(s \in S\) and each \(a \in \Sigma \cup
     \set{\epsilon}\) also recognises \(A\). Thus, \(A\) is context-free.
 \Epr
+
+\Bxr
+    Let \(\Sigma = \set{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}\) be an alphabet. Then \(R
+    = (1 \cup 2 \cup 3 \cup 4 \cup 5 \cup 6 \cup 7 \cup 8 \cup 9) (0 \cup 1 \cup
+    2 \cup 3 \cup 4 \cup 5 \cup 6 \cup 7 \cup 8 \cup 9)^*\) is a regular
+    expression over \(\Sigma\), and \(L(R)\) is the set of positive integers in
+    base \(10\) written in the Indo--Arabic numeral system.
+
+    Construct a context-free grammar which generates \(L(R)\).
+\Exr
+\Bsl
+    The context-free grammar \((\Sigma, V, R, S)\) wherein \(V = \set{S, A, B}\)
+    and \(R\) consists of the production rules
+    \begin{align*}
+        S & \to A B^*\\
+        A & \to 1 \, | \, 2 \, | \, 3 \, | \, 4 \, | \, 5 \, | \, 6 \, | \, 7 \,
+        | \, 8 \, | \, 9\\
+        B & \to A \, | \, 0\\
+    \end{align*}
+    generates \(L(R)\).
+\Esl
 
 \subsubsection{Non-Context-Free Languages}
 
