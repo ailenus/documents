@@ -399,7 +399,7 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
 
     Let \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) be a word in \(R\) of
     length \(n + 1\) which satisfies \(n + 1 \geq p\). Let \(r_0, \ldots, r_{n +
-    1}\) be the sequence of states that \(M\) enters when accepting \(r\). This
+    1}\) be the sequence of states that \(M\) enters when accepting \(w\). This
     sequence has length \(n + 2\), which must be at least \(p + 1\). Among the
     first \(p + 1\) elements in the sequence, two must be the same state by the
     pigeonhole principle. Let the first of these be \(r_i\) and the second
@@ -407,7 +407,7 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(S\) such that
     w_0 \cdots w_{i - 1}\), \(y = w_i \cdots w_{j - 1}\), and \(z = w_j \cdots
     w_n\).
 
-    Thus induced, \(r = x y z\) satisfies the pumping lemma.
+    Thus induced, \(w = x y z\) satisfies the pumping lemma.
 \Epr
 
 \Bxr
@@ -647,10 +647,11 @@ grammars. Such languages are {\bf inherently ambiguous}.
     Every regular language is context-free.
 \Ecr
 \Bpr
-    Let \(A\) be a regular language. Let \((\Sigma, S, \delta, s_0, F)\) be a
-    nondeterministic finite-state automaton recognising \(A\). Then the pushdown
-    automaton \((\Sigma, \nset, S, \delta', s_0, F)\) wherein \(\delta'(s, a,
-    \epsilon) = \delta(s, a)\) for each \(s \in S\) and each \(a \in \Sigma \cup
+    Let \(\Sigma\) be an alphabet and let \(A\) be a regular language over
+    \(\Sigma\). Let \((\Sigma, S, \delta, s_0, F)\) be a nondeterministic
+    finite-state automaton recognising \(A\). Then the pushdown automaton
+    \((\Sigma, \nset, S, \delta', s_0, F)\) wherein \(\delta'(s, a, \epsilon) =
+    \delta(s, a)\) for each \(s \in S\) and each \(a \in \Sigma \cup
     \set{\epsilon}\) also recognises \(A\). Thus, \(A\) is context-free.
 \Epr
 
