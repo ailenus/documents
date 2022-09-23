@@ -79,8 +79,8 @@ Furthermore, \(M\) accepts \(\epsilon\) if \(q_0 \in F\).
 Let \(N = (\Sigma, Q, \delta, q_0, F)\) be a nondeterministic finite-state
 automaton and let \(w\) be a word over \(\Sigma\). Then \(N\) accepts \(w\) if
 \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) such that each \(w_i \in \Sigma
-\cup \set{\epsilon}\) for \(i \in \Nln[n + 1]\) and that there exists a sequence
-of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
+\cup \set{\epsilon}\) for some \(i \in \Nln[n + 1]\) and that there exists a
+sequence of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \begin{enumerate}
     \item \(r_0 = q_0\),
     \item \(r_{i + 1} \in \delta(r_i, w_i)\) for \(i \in \Nln[n + 1]\), and
@@ -93,10 +93,11 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
     deterministic finite-state automaton.
 \Eth
 \Bpr
-    Let \(N = (\Sigma, Q, \delta, q_0, F)\) be the nondeterministic finite-state
-    automaton recognising some language \(A\) over \(\Sigma\).  We construct a
-    deterministic finite-state automaton \(M = (\Sigma, Q', \delta', q_0', F')\)
-    recognising \(A\).
+    Let \(\Sigma\) be an alphabet, let \(A\) be a language over \(\Sigma\), and
+    let \(N = (\Sigma, Q, \delta, q_0, F)\) be a nondeterministic finite-state
+    automaton recognising \(A\). We construct a deterministic finite-state
+    automaton \(M = (\Sigma, Q', \delta', q_0', F')\) which also recognises
+    \(A\).
 
     We first see that \(Q' = \pow(Q)\) and that \(F' = \set{R \in Q' : R \cap F
     \neq \nset}\).
@@ -104,7 +105,7 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
     Let \(\map{\delta_0}{Q \times \set{\epsilon}}{\pow(Q)}\) be defined as
     \(\delta_0(q, \epsilon) = \delta(q, \epsilon)\) for each \(q \in Q\). Assume
     first that, thus induced, \(\delta_0 = \nset\) for \(N\). For each \(R \in
-    Q'\) and for each \(a \in \Sigma\), let \(\delta'(R, a) = \set*{q \in Q :
+    Q'\) and each \(a \in \Sigma\), let \(\delta'(R, a) = \set*{q \in Q :
     \exists \, r \in R \, \big(q \in \delta(r, a)\big)}\). Equivalently,
     \[
         \delta'(R, a) = \bigcup_{r \in R} \delta(r, a).
@@ -132,12 +133,12 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \subsubsection{Regular Expressions and Regular Languages}
 
 \Bdf
-    Let \(\Sigma\) be an alphabet, and let \(a \in \Sigma\). Then \(R\) is a
-    {\bf regular expression over \(\Sigma\)} if
+    Let \(\Sigma\) be an alphabet. Then \(R\) is a {\bf regular expression over
+    \(\Sigma\)} if
     \begin{enumerate}
         \item \(R = \nset\),
         \item \(R = \epsilon\),
-        \item \(R = a\),
+        \item \(R = a\) for some \(a \in \Sigma\),
         \item \(R = R_1 \cup R_2\) wherein \(R_1\) and \(R_2\) are regular
         expressions over \(\Sigma\),
         \item \(R = R_1 R_2\)\footnote{\(R_1 R_2\) denotes the concatenation of
@@ -148,10 +149,9 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
     \end{enumerate}
 \Edf
 
-The language described by a regular expression is a {\bf regular language}. Each
-regular expression describes a unique regular language, while a regular language
-may have multiple distinct regular expressions describing it. If \(R\) is a
-regular expression, we denote the regular language it describes by \(L(R)\).
+The language described by a regular expression is a {\bf regular language},
+which is unique. If \(R\) is a regular expression, we denote the regular
+language it describes by \(L(R)\).
 
 Let \(\Sigma\) be an alphabet, let \(a \in \Sigma\), and let \(R\), \(R_1\), and
 \(R_2\) be regular expressions over \(\Sigma\). If \(R = \nset\), then \(L(R) =
@@ -170,11 +170,11 @@ L(R_1)^*\).
     recognises it.
 \Elm
 \Bpr
-    Let \(\Sigma\) be an alphabet, let \(A\) be a regular language over
-    \(\Sigma\), and let \(R\) be a regular expression which describes \(A\).
+    Let \(\Sigma\) be an alphabet and let \(R\) be a regular expression over
+    \(\Sigma\).
 
     If \(R = \nset\), then the nondeterministic finite-state automaton \(N\)
-    characterised by the following diagram recognises \(A\).
+    characterised by the following diagram recognises \(L(R)\).
     \begin{figure}[!h]
         \centering
         \begin{tikzpicture}[
@@ -189,7 +189,7 @@ L(R_1)^*\).
     \(\delta(r, b) = \nset\) for any \(r\) and \(b\).
 
     If \(R = \epsilon\), then the nondeterministic finite-state automaton \(N\)
-    characterised by the following diagram recognises \(A\).
+    characterised by the following diagram recognises \(L(R)\).
     \begin{figure}[!h]
         \centering
         \begin{tikzpicture}[
@@ -205,7 +205,7 @@ L(R_1)^*\).
 
     If \(R = a\) for some \(a \in \Sigma\), then the nondeterministic
     finite-state automaton \(N\) characterised by the following diagram
-    recognises it.
+    recognises \(L(R)\).
     \begin{figure}[!h]
         \centering
         \begin{tikzpicture}[
@@ -243,7 +243,7 @@ L(R_1)^*\).
         \end{cases}
     \]
     We see that \(N = (\Sigma, Q, \delta, q_0, F)\) is a nondeterministic
-    finite-state automaton recognising \(A\).
+    finite-state automaton recognising \(L(R)\).
 
     If \(R = R_1 R_2\), let \(Q = Q_1 \cup Q_2\). Define \(\map{\delta}{Q \times
     (\Sigma \cup \set{\epsilon})}{\pow(Q)}\) so that for each \(r \in Q\) and
@@ -258,16 +258,16 @@ L(R_1)^*\).
         \end{cases}
     \]
     We see that \(N = (\Sigma, Q, \delta, q_1, F_2)\) is a nondeterministic
-    finite-state automaton recognising \(A\).
+    finite-state automaton recognising \(L(R)\).
 
-    If \(R = R_1^*\), let \(s_0\) be a state not in \(Q_1\), let \(Q = Q_1 \cup
-    \set{q_0}\), and let \(F = F_1 \cup \set{q_0}\). Define \(\map{\delta}{Q
-    \times (\Sigma \cup \set{\epsilon})}{\pow(Q)}\) so that for each \(r \in Q\)
-    and each \(b \in \Sigma \cup \set{\epsilon}\) we have
+    If \(R = R_1^*\), let \(\set{q_0}\) be disjoint from \(Q_1\), let \(Q = Q_1
+    \cup \set{q_0}\), and let \(F = F_1 \cup \set{q_0}\). Define
+    \(\map{\delta}{Q \times (\Sigma \cup \set{\epsilon})}{\pow(Q)}\) so that for
+    each \(r \in Q\) and each \(b \in \Sigma \cup \set{\epsilon}\) we have
     \[
         \delta(r, b) = \begin{cases}
-            \delta_1(r, b) & \text{if }\ (r \in Q_1 \land r \not\in F_1) \lor (r
-            \in F_1 \land b \neq \epsilon),\\
+            \delta_1(r, b) & \text{if }\ r \in Q_1 \setminus F_1 \lor (r \in F_1
+            \land b \neq \epsilon),\\
             \delta_1(r, b) \cup \set{q_1} & \text{if }\ r \in F_1 \land b =
             \epsilon,\\
             \set{q_1} & \text{if }\ r = q_0 \land b = \epsilon \text{, and}\\
@@ -275,7 +275,7 @@ L(R_1)^*\).
         \end{cases}
     \]
     We see that \(N = (\Sigma, Q, \delta, q_0, F)\) is a nondeterministic
-    finite-state automaton recognising \(A\).
+    finite-state automaton recognising \(L(R)\).
 
     Therefore, the lemma holds by the principle of induction.
 \Epr
@@ -297,13 +297,13 @@ L(R_1)^*\).
 Let \(G = (\Sigma, Q, \delta, q_0, q_1)\) be a generalised nondeterministic
 finite-state automaton and let \(w\) be a word over \(\Sigma\). Then \(M\)
 accepts \(w\) if \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) such that each
-\(w_i \in \Sigma^*\) for \(i \in \Nln[n + 1]\) and that there exists a sequence
-of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
+\(w_i \in \Sigma^*\) for some \(i \in \Nln[n + 1]\) and that there exists a
+sequence of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \begin{enumerate}
     \item \(r_0 = q_0\),
     \item \(r_{n + 1} = q_1\), and
-    \item \(w_i \in L(R_i)\) wherein \(R_i = \delta(r_i, r_{i + 1})\) for \(i
-    \in \Nln[n + 1]\).
+    \item \(w_i \in L\big(\delta(r_i, r_{i + 1})\big)\) for \(i \in \Nln[n +
+    1]\).
 \end{enumerate}
 
 \Blm
@@ -312,18 +312,18 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
     is regular.
 \Elm
 \Bpr
-    Let \(N = (\Sigma, Q, \delta, q_0, F)\) be a nondeterministic finite-state
-    automaton recognising the language \(A\) over \(\Sigma\). We argue that
-    \(A\) is described by some regular expression \(R\) over \(\Sigma\).
+    Let \(\Sigma\) be an alphabet, let \(A\) be a language over \(\Sigma\), and
+    let \(N = (\Sigma, Q, \delta, q_0, F)\) be a nondeterministic finite-state
+    automaton recognising \(A\). We argue that \(A\) is described by some
+    regular expression \(R\) over \(\Sigma\).
 
     Let \(G = (\Sigma, Q', \delta', q_0', q_1')\) be a generalised
     nondeterministic finite-state automaton such that
     \begin{enumerate}
-        \item \(q_0' \not\in Q\),
-        \item \(q_1' \not\in Q\),
+        \item \(\set{q_0', q_0'} \cap Q = \nset\),
         \item \(Q' = Q \cup \set{q_0', q_1'}\), and
-        \item for each \(r_0 \in Q \cup \set{q_0'}\) and each \(r_1 \in Q \cup
-        \set{q_1'}\) we have
+        \item for each \(r_0 \in Q' \setminus \set{q_1'}\) and each \(r_1 \in Q'
+        \setminus \set{q_0'}\) we have
             \[
                 \delta'(r_0, r_1) = \begin{cases}
                         \epsilon & \text{if }\ (r_0 = q_0' \land r_1 = q_0) \lor
@@ -385,10 +385,11 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \subsubsection{Nonregular Languages}
 
 \Bth[pumping lemma]
-    If \(A\) is a regular language over \(\Sigma\), then there is a \(p \in
-    \posint\), the \textbf{\textit{pumping length}}, such that if \(w \in A\) is
-    of length at least \(p\), then there exist \(x\), \(y\), and \(z \in
-    \Sigma^*\) which satisfy
+    Let \(\Sigma\) be an alphabet. If \(A\) is a regular language over
+    \(\Sigma\), then there is some \(p \in \posint\), the
+    \textbf{\textit{pumping length}}, such that if \(w \in A\) satisfies
+    \(\abs{w} \geq p\), then there exist \(x\), \(y\), and \(z \in \Sigma^*\)
+    which satisfy
     \begin{enumerate}
         \item \(w = x y z\),
         \item \(x y^i z \in A\) for each \(i \in \setnat\),
@@ -401,11 +402,11 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
     automaton recognising \(A\) and let \(p = \abs{Q}\).
 
     Let \(w = w_0 \cdots w_n\) wherein \(n \in \setnat\) be a word in \(R\) of
-    length \(n + 1\) which satisfies \(n + 1 \geq p\). Let \(r_0, \ldots, r_{n +
-    1}\) be the sequence of states that \(M\) enters when accepting \(w\). This
-    sequence has length \(n + 2\), which must be at least \(p + 1\). Among the
-    first \(p + 1\) elements in the sequence, two must be the same state by the
-    pigeonhole principle. Let the first of these be \(r_i\) and the second
+    length \(n + 1\) which satisfies \(n + 1 \geq p\). Let \((r_0, \ldots, r_{n
+    + 1})\) be the sequence of states that \(M\) enters when accepting \(w\).
+    This sequence has length \(n + 2\), which must be at least \(p + 1\). Among
+    the first \(p + 1\) elements in the sequence, two must be the same state by
+    the pigeonhole principle. Let the first of these be \(r_i\) and the second
     \(r_j\). We note that \(i \leq j - 1\) and that \(j \leq p\). Now let \(x =
     w_0 \cdots w_{i - 1}\), \(y = w_i \cdots w_{j - 1}\), and \(z = w_j \cdots
     w_n\).
@@ -419,10 +420,11 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
 \Exr
 \Bsl
     Assume for the sake of contradiction that \(A\) is regular. Let \(p\) be the
-    pumping length thereof, and let \(w = 0^p 1^p\). Then there exist words
-    \(x\), \(y\), and \(z\in A\) such that \(w = x y z\), \(x y^i z \in A\) for
-    \(i \in \setnat\), \(\abs{y} > 0\), and \(\abs{x y} \leq p\) by the pumping
-    lemma. We argue that it is impossible that there exist such words.
+    pumping length thereof, and let \(w = 0^p 1^p\). Then there exist \(x\),
+    \(y\), and \(z \in \Sigma^*\) such that \(w = x y z\), that \(x y^i z \in
+    A\) for \(i \in \setnat\), that \(\abs{y} > 0\), and that \(\abs{x y} \leq
+    p\) by the pumping lemma. We argue that it is impossible that there exist
+    such words.
 
     We first see that \(y = 0^j\) wherein \(j \in \posint\), for \(\abs{y} > 0\)
     and \(\abs{x y} \leq p\). Thus, \(x y y z = 0^{p + j} 1^p \not\in A\), which
@@ -439,30 +441,30 @@ of states \((r_0, \ldots, r_{n + 1})\) in \(Q\) such that
     A {\bf pushdown automaton} is an ordered sextuple \((\Sigma, \Gamma, Q,
     \delta, q_0, F)\) wherein
     \begin{enumerate}
-        \item \(\Sigma\) is an alphabet, for the input,
-        \item \(\Gamma\) is another alphabet, for the {\bf stack},
+        \item \(\Sigma\) is an alphabet for the input,
+        \item \(\Gamma\) is another alphabet for the {\bf stack},
         \item \(Q\) is a finite set of states,
         \item \(\map{\delta}{Q \times (\Sigma \cup \set{\epsilon}) \times
         (\Gamma \cup \set{\epsilon})}{\pow\big(Q \times (\Gamma \cup
         \set{\epsilon})\big)}\) is the transition function,
         \item \(q_0 \in Q\) is the initial state, and
-        \item \(F \subseteq Q\) is the set of final or accepting states.
+        \item \(F \subseteq Q\) is the set of accepting states.
     \end{enumerate}
 \Edf
 
 Let \(P = (\Sigma, \Gamma, Q, \delta, q_0, F)\) be a pushdown automaton and let
 \(w\) be a word over \(\Sigma\). Then \(M\) accepts \(w = w_0 \cdots w_n\)
 wherein \(n \in \setnat\) such that \(w_i \in \Sigma \cup \set{\epsilon}\) for
-\(i \in \Nln[n + 1]\) and that there exist a sequence of states \((r_0, \ldots,
-r_{n + 1})\) in \(Q\) and a sequence of words \((s_0, \ldots, s_{n + 1})\) in
-\(\Gamma^*\) such that
+some \(i \in \Nln[n + 1]\) and that there exist a sequence of states \((r_0,
+\ldots, r_{n + 1})\) in \(Q\) and a sequence of words \((s_0, \ldots, s_{n +
+1})\) in \(\Gamma^*\) such that
 \begin{enumerate}
     \item \(r_0 = q_0\),
     \item \(s_0 = \epsilon\),
-    \item \((r_{i + 1}, b) \in \delta(r_i, w_i, a)\), \(s_i = a t\), and \(s_{i
-    + 1} = b t\) for some \(a\) and \(b \in \Gamma \cup \set{\epsilon}\) and
-    some \(t \in \Gamma^*\) for \(i \in \Nln[n + 1]\), and
-    \item \(r_{n + 1} \in F\).
+    \item for each \(i \in \Nln[n + 1]\) there exist some \(a\) and \(b \in
+    \Gamma \cup \set{\epsilon}\) and some \(t \in \Gamma^*\) such that \((r_{i +
+    1}, b) \in \delta(r_i, w_i, a)\), that \(s_i = a t\), and that\(s_{i + 1} =
+    b t\) , and \item \(r_{n + 1} \in F\).
 \end{enumerate}
 
 \Bxr
@@ -470,7 +472,7 @@ r_{n + 1})\) in \(Q\) and a sequence of words \((s_0, \ldots, s_{n + 1})\) in
     which recognises the language \(A = \set{0^n 1^n : n \in \setnat}\).
 \Exr
 \Bsl
-    The pushdown automaton \(M\) characterised by the following diagram
+    The pushdown automaton \(P\) characterised by the following diagram
     recognises \(A\).
     \begin{figure}[!h]
         \centering
@@ -490,25 +492,25 @@ r_{n + 1})\) in \(Q\) and a sequence of words \((s_0, \ldots, s_{n + 1})\) in
         \end{tikzpicture}
     \end{figure}
 
-    \noindent Equivalently, \(M = (\Sigma, \Gamma, Q, \delta, q_0, F)\)
+    \noindent Equivalently, \(P = (\Sigma, \Gamma, Q, \delta, q_0, F)\)
     wherein
     \begin{enumerate}
         \item \(\Gamma = \set{0, \$}\),
         \item \(Q = \set{q_0, q_1, q_2, q_3}\),
         \item \(F = \set{q_0, q_3}\), and
-        \item for each \(q \in Q\), each \(a \in \Sigma \cup
-            \set{\epsilon}\), and each \(b \in \Gamma \cup
+        \item for each \(q \in Q\), each \(b \in \Sigma \cup
+            \set{\epsilon}\), and each \(s \in \Gamma \cup
             \set{\epsilon}\) we have
             \[
-                \delta(s, a, b) = \begin{cases}
-                    \set{(q_1, \$)} & \text{if } q = q_0 \land a = \epsilon
-                    \land b = \epsilon,\\
-                    \set{(q_1, 0)} & \text{if } q = q_1 \land a = 0 \land b =
+                \delta(q, b, s) = \begin{cases}
+                    \set{(q_1, \$)} & \text{if } q = q_0 \land b = \epsilon
+                    \land s = \epsilon,\\
+                    \set{(q_1, 0)} & \text{if } q = q_1 \land b = 0 \land s =
                     \epsilon,\\
                     \set{(q_2, \epsilon)} & \text{if } (q = q_1 \lor q = q_2)
-                    \land a = 1 \land b = 0,\\
-                    \set{(q_3, \epsilon)} & \text{if } q = q_2 \land a =
-                    \epsilon \land b = \$ \text{, and}\\
+                    \land b = 1 \land s = 0,\\
+                    \set{(q_3, \epsilon)} & \text{if } q = q_2 \land b =
+                    \epsilon \land s = \$ \text{, and}\\
                     \nset & \text{otherwise}
                 \end{cases}
             \]
@@ -522,31 +524,32 @@ r_{n + 1})\) in \(Q\) and a sequence of words \((s_0, \ldots, s_{n + 1})\) in
     A {\bf context-free grammar} is an ordered quadruple \((\Sigma, V, R, S)\)
     wherein
     \begin{enumerate}
-        \item \(\Sigma\) is an alphabet, the elements whereof are {\bf
-        terminals},
-        \item \(V\) is another alphabet, the elements whereof are {\bf
-        variables}, which is disjoint from \(\Sigma\),
+        \item \(\Sigma\) is an alphabet of {\bf terminals},
+        \item \(V\) is another alphabet of {\bf variables}, which is disjoint
+        from \(\Sigma\),
         \item \(\map{R}{V}{(\Sigma \cup V)^*}\) is a finite set of {\bf
         production rules}, and
         \item \(S \in V\) is the {\bf start variable}.
     \end{enumerate}
 \Edf
 
-Let \((\Sigma, V, R, S)\) be a context-free grammar. If \((A, w)\) wherein \(A
+Let \((\Sigma, V, R, S)\) be a context-free grammar. If \(R(A) = w\) wherein \(A
 \in V\) and \(w \in (\Sigma \cup V)^*\) is a production rule, we write \(A \to
-w\). If \(u\), \(v\), and \(w \in (\Sigma \cup V)^*\), and \(A \to w\) is a
-production rule of the grammar, we say that \(u A v\) {\bf yields} \(u w v\),
-written \(u A v \Rightarrow u w v\). We say that \(u\) {\bf derives} \(v\),
-written \(u \Rightarrow^* v\), if \(u = v\), \(u \Rightarrow v\), or there
-exists a sequence \((u_0, \ldots, u_n)\) wherein \(n \in \setnat\) such that
+w\). Let \(u\), \(v\), and \(w \in (\Sigma \cup V)^*\). If \(A \to w\) is a
+production rule, we say that \(u A v\) {\bf yields} \(u w v\) and write \(u A v
+\Rightarrow u w v\). We say that \(u\) {\bf derives} \(v\) and write \(u
+\Rightarrow^* v\) if \(u = v\), \(u \Rightarrow v\), or there exists a sequence
+\((u_0, \ldots, u_n)\) in \((\Sigma \cup V)^*\) for some \(n \in \setnat\) such
+that
 \[
     u \Rightarrow u_0 \Rightarrow \cdots \Rightarrow u_n \Rightarrow v.
 \]
 If \(A \to u\) and \(A \to v\) are production rules of the grammar, we may
-denote them by \(A \to u \, | \, v\). The {\bf language of the grammar} is
-\(\set{w \in \Sigma^* : S \Rightarrow^* w}\).
+denote them by \(A \to u \, | \, v\). The {\bf language generated by the
+grammar} is \(\set{w \in \Sigma^* : S \Rightarrow^* w}\).
 
-The language of a context-free grammar is a {\bf context-free language}.
+The language generated by a context-free grammar is a {\bf context-free
+language}.
 
 \Bxr
     Let \(\Sigma = \set{0, 1}\) be an alphabet. Construct a context-free grammar
@@ -616,8 +619,8 @@ grammars. Such languages are {\bf inherently ambiguous}.
     1]\) as variables. We then replace any terminal \(u_i\) for \(i \in \Nln[n +
     1]\) with the new variable \(U_i\) while adding the rule \(U_i \to u_i\).
 
-    The resultant context-free grammar is in Chomsky normal form, and therefore
-    the theorem holds.
+    The resultant context-free grammar is in Chomsky normal form, and thus the
+    theorem holds.
 \Epr
 
 \subsubsection{Equivalence Between Pushdown Automata and Context-Free Languages}
@@ -629,16 +632,16 @@ grammars. Such languages are {\bf inherently ambiguous}.
 \Bpr
     Let \(\Sigma\) be an alphabet, let \(A\) be a context-free language over
     \(\Sigma\), and let \(G = (\Sigma, V, R, S)\) be a context-free grammar
-    which generates \(A\).  We convert \(G\) into an equivalent pushdown
-    automaton \(P = (\Sigma, \Gamma, Q, \delta, q_0, F)\).
+    which generates \(A\).  We construct a pushdown automaton \(P = (\Sigma,
+    \Gamma, Q, \delta, q_0, F)\) which recognises \(A\).
 
-    Let \(a \in \Sigma \cup \set{\epsilon}\), let \(s \in \Gamma \cup
+    Let \(b \in \Sigma \cup \set{\epsilon}\), let \(s \in \Gamma \cup
     \set{\epsilon}\), and let \(q\) and \(r \in Q\). Let \(u = u_0 \cdots u_i\)
     wherein \(i \in \setnat\) be a word over \(\Gamma\). We denote by \((r, u)
-    \in \delta(q, a, s)\) that there exist a sequence \((q_0, \ldots, q_{i -
+    \in \delta(q, b, s)\) that there exist a sequence \((q_0, \ldots, q_{i -
     1})\) in \(Q\) such that
     \begin{enumerate}
-        \item \((q_0, u_i) \in \delta(q, a, s)\),
+        \item \((q_0, u_i) \in \delta(q, b, s)\),
         \item \(\set{(q_{j + 1}, u_{i - j - 1})} = \delta(q_j, \epsilon,
         \epsilon)\) for \(j \in \Nln[i - 1]\), and
         \item \(\set{(r, u_0)} = \delta(q_{i - 1}, \epsilon, \epsilon)\).
@@ -648,14 +651,14 @@ grammars. Such languages are {\bf inherently ambiguous}.
     \(\set{\$}\) be disjoint from \(\Sigma\) and \(V\), and let \(\Gamma =
     \Sigma \cup V \cup \set{\$}\). Let \(\delta\) be defined as
     \[
-        \delta(q, a, s) = \begin{cases}
-            \set{(q_1, S \$)} & \text{if } q = q_0 \land a = \epsilon \land s =
+        \delta(q, b, s) = \begin{cases}
+            \set{(q_1, S \$)} & \text{if } q = q_0 \land b = \epsilon \land s =
             \epsilon,\\
-            \set{(q_1, w)} & \text{if } q = q_1 \land a = \epsilon \land s = A
+            \set{(q_1, w)} & \text{if } q = q_1 \land b = \epsilon \land s = A
             \land (A \to w) \in R,\\
-            \set{(q_1, \epsilon)} & \text{if } q = q_1 \land a = b \land s = b
+            \set{(q_1, \epsilon)} & \text{if } q = q_1 \land b = a \land s = a
             \in \Sigma,\\
-            \set{(q_2, \epsilon)} & \text{if } q = q_1 \land a = \epsilon \land
+            \set{(q_2, \epsilon)} & \text{if } q = q_1 \land b = \epsilon \land
             s = \$\text{, and},\\
             \nset & \text{otherwise.}
         \end{cases}
@@ -677,7 +680,7 @@ grammars. Such languages are {\bf inherently ambiguous}.
         \path (q0) edge node {\(\epsilon, \epsilon \to S \$\)} (q1)
         (q1) edge [loop right] node {\begin{tabular}{l l}
             \(\epsilon, A \to w\) & for production rule \(A \to w\)\\
-            \(b, b \to \epsilon\) & for terminal \(b\)
+            \(a, a \to \epsilon\) & for terminal \(a\)
         \end{tabular}} ()
         edge node {\(\epsilon, \$ \to \epsilon\)} (q2);
         \end{tikzpicture}
@@ -700,13 +703,13 @@ grammars. Such languages are {\bf inherently ambiguous}.
     automaton equivalent to \(P\) such that
     \begin{enumerate}
         \item \(F' = \set{q_1}\),
-        \item there exist \(q \in Q\), \(a \in \Sigma \cup \set{\epsilon}\), and
+        \item there exist \(q \in Q\), \(b \in \Sigma \cup \set{\epsilon}\), and
         \(s \in \Gamma \cup \set{\epsilon}\) which satisfy \(\set{q_1, \epsilon}
-        \in \delta'(q, a, s)\), and
-        \item if \(\set{r_1, s_1} \in \delta(r_0, a, s_0)\) for some \(r_0\) and
-        \(r_1 \in Q\), \(a \in \Sigma \cup \set{\epsilon}\), and \(s_0\) and
-        \(s_1 \in \Gamma \cup \set{\epsilon}\), then \(s_0 = \epsilon\) or \(s_1
-        = \epsilon\).
+        \in \delta'(q, b, s)\), and
+        \item if \(\set{r_1, s_1} \in \delta(r_0, b, s_0)\) for some \(r_0\) and
+        \(r_1 \in Q\), some \(b \in \Sigma \cup \set{\epsilon}\), and some
+        \(s_0\) and \(s_1 \in \Gamma \cup \set{\epsilon}\), then \(s_0 =
+        \epsilon\) or \(s_1 = \epsilon\).
     \end{enumerate}
 
     TODO
@@ -725,10 +728,10 @@ grammars. Such languages are {\bf inherently ambiguous}.
 \Ecr
 \Bpr
     Let \(\Sigma\) be an alphabet and let \(A\) be a regular language over
-    \(\Sigma\). Let \((\Sigma, S, \delta, s_0, F)\) be a nondeterministic
+    \(\Sigma\). Let \((\Sigma, Q, \delta, q_0, F)\) be a nondeterministic
     finite-state automaton recognising \(A\). Then the pushdown automaton
-    \((\Sigma, \nset, S, \delta', s_0, F)\) wherein \(\delta'(s, a, \epsilon) =
-    \delta(s, a)\) for each \(s \in S\) and each \(a \in \Sigma \cup
+    \((\Sigma, \nset, Q, \delta', q_0, F)\) wherein \(\delta'(q, b, \epsilon) =
+    \delta(q, b)\) for each \(q \in Q\) and each \(b \in \Sigma \cup
     \set{\epsilon}\) also recognises \(A\). Thus, \(A\) is context-free.
 \Epr
 
@@ -756,10 +759,10 @@ grammars. Such languages are {\bf inherently ambiguous}.
 \subsubsection{Non-Context-Free Languages}
 
 \Bth[pumping lemma for context-free languages]
-    If \(A\) is a context-free language over \(\Sigma\), then there is a \(p \in
-    \posint\), the pumping length, such that if \(w \in A\) is of length at
-    least \(p\), then there exist \(u\), \(v\), \(x\), \(y\), and \(z \in
-    \Sigma^*\) which satisfy
+    Let \(\Sigma\) be an alphabet. If \(A\) is a context-free language over
+    \(\Sigma\), then there is some \(p \in \posint\), the pumping length, such
+    that if \(w \in A\) satisfies \(\abs{w} \geq p\), then there exist \(u\),
+    \(v\), \(x\), \(y\), and \(z \in \Sigma^*\) which satisfy
     \begin{enumerate}
         \item \(w = u v x y z\),
         \item \(u v^i x y^i z \in A\) for each \(i \in \setnat\),
